@@ -14,34 +14,35 @@ class TokenResolver {
 			console.log("Return token from localStore: ", localStorage.getItem(TOKEN_LOCAL_STORE_KEY));
 			return localStorage.getItem(TOKEN_LOCAL_STORE_KEY)!;
 		}
-		return this.loadTokenFromServer();
+		// return this.loadTokenFromServer();
+		return "test token";
 	}
 
-	loadTokenFromServer(): string {
-		const httpClient = axios.create({
-			baseURL: BASE_SERVER_URL,
-			headers: {
-				'Access-Control-Allow-Origin': 'http://localhost:3000',
-				'Access-Control-Allow-Credentials': true,
-				Accept: "application/json"
-			}
-		});
+	// loadTokenFromServer(): string {
+	// 	const httpClient = axios.create({
+	// 		baseURL: BASE_SERVER_URL,
+	// 		headers: {
+	// 			'Access-Control-Allow-Origin': 'http://localhost:3000',
+	// 			'Access-Control-Allow-Credentials': true,
+	// 			Accept: "application/json"
+	// 		}
+	// 	});
 
-		httpClient.get<TokenResponse, AxiosResponse<TokenResponse>>("/auth/anonymous?platform=subscriptions")
-			.then(response => {
-				//get token from response
-				const token = response.data.token;
-				console.log("Received token from server response: ", token);
-				//set JWT token to local
-				localStorage.setItem(TOKEN_LOCAL_STORE_KEY, token);
-				//set token to axios common header
-				this.setAuthToken(token);
-			});
+	// 	httpClient.get<TokenResponse, AxiosResponse<TokenResponse>>("/auth/anonymous?platform=subscriptions")
+	// 		.then(response => {
+	// 			//get token from response
+	// 			const token = response.data.token;
+	// 			console.log("Received token from server response: ", token);
+	// 			//set JWT token to local
+	// 			localStorage.setItem(TOKEN_LOCAL_STORE_KEY, token);
+	// 			//set token to axios common header
+	// 			this.setAuthToken(token);
+	// 		});
 
-		const token = localStorage.getItem(TOKEN_LOCAL_STORE_KEY)!;
-		console.log("Server return token from localStore: ", token);
-		return token;
-	}
+	// 	const token = localStorage.getItem(TOKEN_LOCAL_STORE_KEY)!;
+	// 	console.log("Server return token from localStore: ", token);
+	// 	return token;
+	// }
 
 	setAuthToken(token: string) {
 		if (token) {

@@ -1,46 +1,40 @@
 import * as React from "react";
+import "./App.css"
 import { courseApi } from "./api/course-api";
 import { CoursesPreviewResponse } from "./dto/Course";
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import CourseCard from "./components/CourseCard";
+import { AppContent } from "./components/AppContent";
 
-interface FetchState {
-	data: null | CoursesPreviewResponse,
-}
+const { Header, Content, Footer } = Layout;
 
-interface FetchDataAction {
-	data: CoursesPreviewResponse
-}
+const App = () => {
+	const {
+		token: { colorBgContainer },
+	} = theme.useToken();
+	return (
+		<Layout className="layout">
+			<Header>
+				<div className="logo" />
+				<Menu
+					theme="dark"
+					mode="horizontal"
+					defaultSelectedKeys={['2']}
+					items={new Array(15).fill(null).map((_, index) => {
+						const key = index + 1;
+						return {
+							key,
+							label: `nav ${key}`,
+						};
+					})}
+				/>
+			</Header>
+			<Content style={{ padding: '0 50px' }}>
+				<AppContent />
+			</Content>
+			<Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+		</Layout>
+	);
+};
 
-type FetchActions = FetchDataAction
-
-function fetchReducer(initialState: FetchState, action: FetchActions): FetchState {
-	//  Implement your reducer here.
-	if (action.data === null) {
-		return initialState;
-	}
-	return { data: action.data }
-}
-
-function useFetch(url: string): FetchState {
-	const [state, dispatch] = React.useReducer(fetchReducer, {
-		data: null
-	});
-
-	React.useEffect(() => {
-		async function performFetch() {
-			const response = await courseApi.getCoursesPreview();
-			dispatch({ data: response.data});
-
-		}
-		performFetch();
-	}, [url]);
-	return state;
-}
-
-function App(){
-	// const fetchState = useFetch("");
-	// if (fetchState.data === null) return <div>Loading...</div>;
-	// if (fetchState.data !== null) return <div>{JSON.stringify(fetchState.data?.courses)}</div>;
-	return (<div>Hi there</div>)
-}
-
-export default App
+export default App;

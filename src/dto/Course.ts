@@ -1,8 +1,7 @@
 export interface CoursesPreviewResponse{
-	courses: Course[];
+	courses: CoursePreview[];
 }
-
-export interface Course {
+export interface BaseCourse {
 	id: string;
 	title: string;
 	tags: string[];
@@ -13,8 +12,14 @@ export interface Course {
 	previewImageLink: string;
 	rating: number;
 	meta: CourseMetaData;
-	lessons: Lesson[];
 	containsLockedLessons: boolean;
+}
+
+export interface CoursePreview extends BaseCourse {
+	lessonsCount: number;
+}
+export interface Course extends BaseCourse {
+	lessons: Lesson[];
 }
 
 export interface Lesson {
@@ -31,8 +36,10 @@ export interface Lesson {
 
 export interface CourseMetaData {
 	slug: string;
-	skills: string[];
-	courseVideoPreview: CourseVideoPreview;
+	skills?: string[];
+	courseVideoPreview?: CourseVideoPreview;
+	fullCourseProductId?: string;
+	fullCourseProductFamily?: string;
 }
 
 export interface CourseVideoPreview {

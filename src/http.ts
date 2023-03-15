@@ -18,25 +18,21 @@ enum StatusCode {
 }
 
 const headers: Readonly<Record<string, string | boolean>> = {
-	'Access-Control-Allow-Origin': 'http://localhost:3000',
+	'Access-Control-Allow-Origin': '*',
 	'Access-Control-Allow-Credentials': true,
 	"Content-Type": "application/json"
 };
 
 class Http {
-	private instance: AxiosInstance | null = null;
+	public instance: AxiosInstance;
 
-	private get http(): AxiosInstance {
-		return this.instance != null ? this.instance : this.initHttp();
-	}
-
-	initHttp() {
-		const http = axios.create({
+	constructor() {
+		this.instance = axios.create({
 			baseURL: BASE_SERVER_URL,
 			headers
 		});
 
-		http.interceptors.request.use(
+		this.instance.interceptors.request.use(
 			config => {
 				const token = tokenResoler.getToken();
 				console.log("Setup autorization token: ", token)
@@ -45,20 +41,17 @@ class Http {
 			});
 
 
-		http.interceptors.response.use(
+		this.instance.interceptors.response.use(
 			(response) => response
 		);
-
-		this.instance = http;
-		return http;
 	}
 
 	request<T = any, R = AxiosResponse<T>>(config: AxiosRequestConfig): Promise<R> {
-		return this.http.request(config);
+		return this.instance.request(config);
 	}
 
 	get<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
-		return this.http.get<T, R>(url);
+		return this.instance.get<T, R>(url);
 	}
 
 	post<T = any, R = AxiosResponse<T>>(
@@ -66,7 +59,7 @@ class Http {
 		data?: T,
 		config?: AxiosRequestConfig
 	): Promise<R> {
-		return this.http.post<T, R>(url, data, config);
+		return this.instance.post<T, R>(url, data, config);
 	}
 
 	put<T = any, R = AxiosResponse<T>>(
@@ -74,11 +67,11 @@ class Http {
 		data?: T,
 		config?: AxiosRequestConfig
 	): Promise<R> {
-		return this.http.put<T, R>(url, data, config);
+		return this.instance.put<T, R>(url, data, config);
 	}
 
 	delete<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
-		return this.http.delete<T, R>(url, config);
+		return this.instance.delete<T, R>(url, config);
 	}
 }
 
