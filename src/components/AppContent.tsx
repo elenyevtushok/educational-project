@@ -48,22 +48,22 @@ export const AppContent = () => {
 	if (fetchState.data === null) return <div>Loading...</div>;
 	if (fetchState.data !== null) return (
 		<List grid={{
-			gutter: 16, 
+			gutter: 16,
+			column: 3,
 			xs: 1,
 			sm: 2,
 			md: 4,
 			lg: 4,
 			xl: 6,
-			xxl: 3, }}>
-			{
-				// console.log("Cources:" + JSON.stringify(fetchState.data.courses))
-				fetchState.data.courses.map(course => {
-					console.log("Course:" + JSON.stringify(course))
-					return (
-						<List.Item>
-							<CourseCard key={course.id} coursePreview={course} />
-						</List.Item>
-					)
-				})};
-		</List>)
+			xxl: 3,
+		}}
+			dataSource={fetchState.data.courses}
+			renderItem={(course) => {
+				return (
+					<List.Item>
+						<CourseCard key={course.id} coursePreview={course} />
+					</List.Item>
+				)
+			}}
+		/>)
 }
