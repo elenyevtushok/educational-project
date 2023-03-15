@@ -4,6 +4,7 @@ import { courseApi } from '../api/course-api'
 import { CoursePreview, CoursesPreviewResponse } from '../dto/Course'
 import CourseCard from './CourseCard'
 
+
 interface FetchState {
 	data: null | CoursesPreviewResponse,
 }
@@ -46,12 +47,23 @@ export const AppContent = () => {
 	console.log("Cources data:" + JSON.stringify(fetchState.data))
 	if (fetchState.data === null) return <div>Loading...</div>;
 	if (fetchState.data !== null) return (
-		<List >
+		<List grid={{
+			gutter: 16, 
+			xs: 1,
+			sm: 2,
+			md: 4,
+			lg: 4,
+			xl: 6,
+			xxl: 3, }}>
 			{
 				// console.log("Cources:" + JSON.stringify(fetchState.data.courses))
 				fetchState.data.courses.map(course => {
 					console.log("Course:" + JSON.stringify(course))
-					return <CourseCard key={course.id} coursePreview = {course} />
+					return (
+						<List.Item>
+							<CourseCard key={course.id} coursePreview={course} />
+						</List.Item>
+					)
 				})};
 		</List>)
 }

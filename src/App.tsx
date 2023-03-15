@@ -2,9 +2,10 @@ import * as React from "react";
 import "./App.css"
 import { courseApi } from "./api/course-api";
 import { CoursesPreviewResponse } from "./dto/Course";
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import CourseCard from "./components/CourseCard";
 import { AppContent } from "./components/AppContent";
+import AppHeader from "./components/common/AppHeader";
 
 const { Header, Content, Footer } = Layout;
 
@@ -14,21 +15,7 @@ const App = () => {
 	} = theme.useToken();
 	return (
 		<Layout className="layout">
-			<Header>
-				<div className="logo" />
-				<Menu
-					theme="dark"
-					mode="horizontal"
-					defaultSelectedKeys={['2']}
-					items={new Array(15).fill(null).map((_, index) => {
-						const key = index + 1;
-						return {
-							key,
-							label: `nav ${key}`,
-						};
-					})}
-				/>
-			</Header>
+			<AppHeader />
 			<Content style={{ padding: '0 50px' }}>
 				<AppContent />
 			</Content>

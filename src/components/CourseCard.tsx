@@ -1,7 +1,7 @@
 import React from 'react';
 import { CoursePreview } from '../dto/Course';
 
-import { Card } from 'antd';
+import { Card, List } from 'antd';
 
 const { Meta } = Card;
 
