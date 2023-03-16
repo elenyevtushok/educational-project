@@ -6,6 +6,7 @@ import { Layout, Menu, theme } from 'antd';
 import CourseCard from "./components/CourseCard";
 import { AppContent } from "./components/AppContent";
 import AppHeader from "./components/common/AppHeader";
+import { AppFooter } from "./components/common/AppFooter";
 
 const { Header, Content, Footer } = Layout;
 
@@ -19,7 +20,7 @@ const App = () => {
 			<Content style={{ padding: '0 50px' }}>
 				<AppContent />
 			</Content>
-			<Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+			<AppFooter />
 		</Layout>
 	);
 };

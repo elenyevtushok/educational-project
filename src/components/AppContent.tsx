@@ -88,6 +88,8 @@ export const AppContent = () => {
 				sm: 1,
 				md: 1,
 				lg: 2,
+				xl: 2,
+				xxl: 3
 			}}
 				dataSource={searchState.pageResponse.results}
 				renderItem={(item) => {

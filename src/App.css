@@ -1,5 +1,6 @@
 body{
 	margin: 0;
+	font-family: 'Poppins', sans-serif;
 }
 .site-layout-content {
 	min-height: 280px;
@@ -23,4 +24,21 @@ body{
 .ant-row-rtl .logo {
 	float: right;
 	margin: 16px 0 16px 24px;
+}
+.ant-card-body{
+	font-family: 'Poppins', sans-serif;
+}
+.card-content{
+	font-size: 16px;
+}
+div.ant-card-meta-title{
+	font-size: 20px!important;
+	overflow-wrap: break-word!important;
+}
+.skills-header{
+	font-weight: 600;
+}
+.lessons-in-course{
+	font-style: italic;
+	font-weight: 600;
 }
