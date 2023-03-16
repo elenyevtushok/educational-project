@@ -5,6 +5,9 @@ body{
 	min-height: 280px;
 	padding: 24px;
 }
+.app-content{
+	margin-top: 30px;
+}
 
 .logo {
 	float: left;

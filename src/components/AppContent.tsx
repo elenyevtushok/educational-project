@@ -1,69 +1,105 @@
-import { List } from 'antd'
-import React from 'react'
+import { List, Pagination } from 'antd'
 import { courseApi } from '../api/course-api'
-import { CoursePreview, CoursesPreviewResponse } from '../dto/Course'
+import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
+import { useEffect, useReducer } from 'react'
 
 
 interface FetchState {
-	data: null | CoursesPreviewResponse,
+	pageResponse: null | Page<CoursePreview>;
+	pageRequest: PageRequest
 }
 
 interface FetchDataAction {
-	data: CoursesPreviewResponse
+	pageResponse: Page<CoursePreview>;
 }
 
-type FetchActions = FetchDataAction
-
-function fetchReducer(initialState: FetchState, action: FetchActions): FetchState {
-	//  Implement your reducer here.
-	if (action.data === null) {
-		return initialState;
-	}
-	return { data: action.data }
+interface FetchActions {
+	type: string;
+	pageResponse: Page<CoursePreview> | null;
+	pageRequest: PageRequest;
 }
 
-function useFetch(url: string): FetchState {
-	const [state, dispatch] = React.useReducer(fetchReducer, {
-		data: null
-	});
-
-	React.useEffect(() => {
-		async function performFetch() {
-			const response = await courseApi.getCoursesPreview();
-			dispatch({ data: response.data });
-
-		}
-		performFetch();
-	}, [url]);
-	return state;
+const FIRST_PAGE_REQUEST: PageRequest = {
+	page: 0,
+	size: 10
+};
+const INITIAL_STATE: FetchState = {
+	pageResponse: null,
+	pageRequest: FIRST_PAGE_REQUEST
 }
-
-
-
 
 export const AppContent = () => {
-	const fetchState = useFetch("");
-	console.log("Cources data:" + JSON.stringify(fetchState.data))
-	if (fetchState.data === null) return <div>Loading...</div>;
-	if (fetchState.data !== null) return (
-		<List grid={{
-			gutter: 16,
-			column: 3,
-			xs: 1,
-			sm: 2,
-			md: 4,
-			lg: 4,
-			xl: 6,
-			xxl: 3,
-		}}
-			dataSource={fetchState.data.courses}
-			renderItem={(course) => {
-				return (
-					<List.Item>
-						<CourseCard key={course.id} coursePreview={course} />
-					</List.Item>
-				)
+	const [searchState, dispatchSearch] = useReducer(searchReducer, INITIAL_STATE);
+	useEffect(() => {
+		async function performFetch() {
+			const pageResponse = await courseApi.getCoursesPreview(searchState.pageRequest);
+			dispatchSearch({
+				pageResponse: pageResponse,
+				pageRequest: searchState.pageRequest,
+				type: "UPDATE"
+			});
+		}
+		performFetch();
+	}, [searchState.pageRequest]);
+
+	function searchReducer(currentState: FetchState, action: FetchActions): FetchState {
+		//  Implement your reducer here.
+		if (action.type === "PAGINATION") {
+			return {
+				...currentState,
+				pageRequest: action.pageRequest
+			};
+		}
+
+		if (action.type === "UPDATE") {
+			return {
+				...currentState,
+				pageResponse: action.pageResponse
+			};
+		}
+
+		return currentState;
+	}
+
+	const pageChangeHandler = (page: number, pageSize: number) => {
+		const newPageRequest: PageRequest = {
+			page: page,
+			size: pageSize
+		};
+		dispatchSearch({
+			pageResponse: null,
+			pageRequest: newPageRequest,
+			type: "PAGINATION"
+		});
+	}
+
+
+	if (searchState.pageResponse === null) return <div>Loading...</div>;
+	if (searchState.pageResponse !== null) return (
+		<div>
+			<List className='app-content' grid={{
+				gutter: 16,
+				column: 2,
+				xs: 1,
+				sm: 2
 			}}
-		/>)
+				dataSource={searchState.pageResponse.results}
+				renderItem={(course) => {
+					return (
+						<List.Item>
+							<CourseCard key={course.id} coursePreview={course} />
+						</List.Item>
+					)
+				}}
+			/>
+			<Pagination
+				defaultCurrent={1}
+				total={searchState.pageResponse.total}
+				defaultPageSize={10}
+				onChange={pageChangeHandler}
+			/>
+		</div>
+	)
+
 }

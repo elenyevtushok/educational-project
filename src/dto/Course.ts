@@ -1,4 +1,26 @@
-export interface CoursesPreviewResponse{
+export class Page<T>{
+	constructor(results: T[], total: number) {
+		this._results = results;
+		this._total = total;
+	}
+
+	private _results: T[];
+	private _total: number;
+
+	public get total(): number {
+		return this._total;
+	}
+	public get results(): T[] {
+		return this._results;
+	}
+}
+
+export interface PageRequest{
+	page: number;
+	size: number;
+}
+
+export interface CoursesPreviewResponse {
 	courses: CoursePreview[];
 }
 export interface BaseCourse {
