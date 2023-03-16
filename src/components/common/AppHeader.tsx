@@ -15,14 +15,14 @@ function AppHeader() {
 				mode="horizontal"
 				defaultSelectedKeys={['2']}
 				items={[
-					{
-						key: '1',
-						label: 'Courses',
-					},
-					{
-						key: '3',
-						label: 'Contact Us',
-					},
+					// {
+					// 	key: '1',
+					// 	label: 'Courses',
+					// },
+					// {
+					// 	key: '2',
+					// 	label: 'Contact Us',
+					// }
 				]}
 			/>
 		</Header>
