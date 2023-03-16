@@ -81,6 +81,7 @@ export const AppContent = () => {
 	if (searchState.pageResponse === null) return <div>Loading...</div>;
 	if (searchState.pageResponse !== null) return (
 		<div>
+			<h2>Chose your perfect course</h2>
 			<List className='app-content' grid={{
 				gutter: 16,
 				column: 3,
@@ -101,6 +102,7 @@ export const AppContent = () => {
 				}}
 			/>
 			<Pagination
+			className='pagination'
 				defaultCurrent={FIRST_PAGE}
 				total={searchState.pageResponse.total}
 				defaultPageSize={DEFAULT_PAGE_SIZE}

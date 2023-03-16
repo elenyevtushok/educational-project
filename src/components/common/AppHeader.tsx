@@ -8,10 +8,10 @@ const { Header } = Layout;
 function AppHeader() {
 	return (
 		<Header>
-			<div className="logo">Courses</div>
+			<div className="logo"></div>
 			<Menu
 				style={{ float: 'right'}}
-				theme="dark"
+				theme="light"
 				mode="horizontal"
 				defaultSelectedKeys={['2']}
 				items={[

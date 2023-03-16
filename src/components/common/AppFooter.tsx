@@ -3,6 +3,6 @@ import React from 'react'
 
 export const AppFooter = () => {
   return (
-	  <Footer style={{ textAlign: 'center' }}>UpCourses ©2023 Created by Olena Yevtushok</Footer>
+	  <Footer className='footer' style={{ textAlign: 'center'}}>UpCourses ©2023 Created by Olena Yevtushok</Footer>
   )
 }
