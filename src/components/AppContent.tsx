@@ -1,69 +1,85 @@
-import { List } from 'antd'
-import React from 'react'
+import { List, Pagination } from 'antd'
 import { courseApi } from '../api/course-api'
-import { CoursePreview, CoursesPreviewResponse } from '../dto/Course'
+import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
+import { useEffect, useReducer } from 'react'
 
 
 interface FetchState {
-	data: null | CoursesPreviewResponse,
+	data: null | Page<CoursePreview>,
 }
 
 interface FetchDataAction {
-	data: CoursesPreviewResponse
+	data: Page<CoursePreview>;
 }
 
 type FetchActions = FetchDataAction
 
-function fetchReducer(initialState: FetchState, action: FetchActions): FetchState {
-	//  Implement your reducer here.
-	if (action.data === null) {
-		return initialState;
-	}
-	return { data: action.data }
-}
-
-function useFetch(url: string): FetchState {
-	const [state, dispatch] = React.useReducer(fetchReducer, {
-		data: null
-	});
-
-	React.useEffect(() => {
-		async function performFetch() {
-			const response = await courseApi.getCoursesPreview();
-			dispatch({ data: response.data });
-
-		}
-		performFetch();
-	}, [url]);
-	return state;
-}
-
-
+const firstPageRequest: PageRequest = {
+	page: 0,
+	size: 10
+};
 
 
 export const AppContent = () => {
-	const fetchState = useFetch("");
+	function searchReducer(initialState: FetchState, action: FetchActions): FetchState {
+		//  Implement your reducer here.
+		if (action.data === null) {
+			return initialState;
+		}
+		return { data: action.data }
+	}
+
+	function useFetch(pageRequest: PageRequest): FetchState {
+		const [state, dispatch] = useReducer(searchReducer, {
+			data: null
+		});
+
+		useEffect(() => {
+			async function performFetch() {
+				const pageResponse = await courseApi.getCoursesPreview(pageRequest);
+				dispatch({ data: pageResponse });
+
+			}
+			performFetch();
+		}, [pageRequest]);
+		return state;
+	}
+
+	const fetchState = useFetch(firstPageRequest);
 	console.log("Cources data:" + JSON.stringify(fetchState.data))
 	if (fetchState.data === null) return <div>Loading...</div>;
 	if (fetchState.data !== null) return (
-		<List grid={{
-			gutter: 16,
-			column: 3,
-			xs: 1,
-			sm: 2,
-			md: 4,
-			lg: 4,
-			xl: 6,
-			xxl: 3,
-		}}
-			dataSource={fetchState.data.courses}
-			renderItem={(course) => {
-				return (
-					<List.Item>
-						<CourseCard key={course.id} coursePreview={course} />
-					</List.Item>
-				)
+		<div>
+			<List className='app-content' grid={{
+				gutter: 16,
+				column: 2,
+				xs: 1,
+				sm: 2
 			}}
-		/>)
+				dataSource={fetchState.data.results}
+				renderItem={(course) => {
+					return (
+						<List.Item>
+							<CourseCard key={course.id} coursePreview={course} />
+						</List.Item>
+					)
+				}}
+			/>
+			<Pagination
+				defaultCurrent={1}
+				total={fetchState.data.total}
+				defaultPageSize={10}
+				onChange={(page: number, pageSize: number) => {
+					const newPageRequest: PageRequest = {
+						page: page,
+						size: pageSize
+					};
+					useFetch(newPageRequest);
+				}
+				}
+			/>
+		</div>
+	)
+
 }
