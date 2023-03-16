@@ -16,7 +16,7 @@ interface FetchDataAction {
 
 interface FetchActions {
 	type: string;
-	pageResponse: Page<CoursePreview>;
+	pageResponse: Page<CoursePreview> | null;
 	pageRequest: PageRequest;
 }
 
@@ -30,6 +30,18 @@ const INITIAL_STATE: FetchState = {
 }
 
 export const AppContent = () => {
+	const [searchState, dispatchSearch] = useReducer(searchReducer, INITIAL_STATE);
+	useEffect(() => {
+		async function performFetch() {
+			const pageResponse = await courseApi.getCoursesPreview(searchState.pageRequest);
+			dispatchSearch({
+				pageResponse: pageResponse,
+				pageRequest: searchState.pageRequest,
+				type: "UPDATE"
+			});
+		}
+		performFetch();
+	}, [searchState.pageRequest]);
 
 	function searchReducer(currentState: FetchState, action: FetchActions): FetchState {
 		//  Implement your reducer here.
@@ -50,38 +62,21 @@ export const AppContent = () => {
 		return currentState;
 	}
 
-	function useFetch(pageRequest: PageRequest): FetchState {
-		const [state, dispatchSearch] = useReducer(searchReducer, INITIAL_STATE);
-
-		useEffect(() => {
-			async function performFetch() {
-				const pageResponse = await courseApi.getCoursesPreview(pageRequest);
-				dispatchSearch({
-					pageResponse: pageResponse,
-					pageRequest: pageRequest,
-					type: "UPDATE"
-				});
-			}
-			performFetch();
-		}, [pageRequest]);
-		return state;
-	}
-
 	const pageChangeHandler = (page: number, pageSize: number) => {
 		const newPageRequest: PageRequest = {
 			page: page,
 			size: pageSize
 		};
-		// dispatchSearch({
-		// 	pageResponse: null,
-		// 	pageRequest: newPageRequest,
-		// 	type: "PAGINATION"
-		// });
+		dispatchSearch({
+			pageResponse: null,
+			pageRequest: newPageRequest,
+			type: "PAGINATION"
+		});
 	}
 
-	const fetchState = useFetch(FIRST_PAGE_REQUEST);
-	if (fetchState.pageResponse === null) return <div>Loading...</div>;
-	if (fetchState.pageResponse !== null) return (
+
+	if (searchState.pageResponse === null) return <div>Loading...</div>;
+	if (searchState.pageResponse !== null) return (
 		<div>
 			<List className='app-content' grid={{
 				gutter: 16,
@@ -89,7 +84,7 @@ export const AppContent = () => {
 				xs: 1,
 				sm: 2
 			}}
-				dataSource={fetchState.pageResponse.results}
+				dataSource={searchState.pageResponse.results}
 				renderItem={(course) => {
 					return (
 						<List.Item>
@@ -100,7 +95,7 @@ export const AppContent = () => {
 			/>
 			<Pagination
 				defaultCurrent={1}
-				total={fetchState.pageResponse.total}
+				total={searchState.pageResponse.total}
 				defaultPageSize={10}
 				onChange={pageChangeHandler}
 			/>

@@ -5,9 +5,6 @@ import { Card, List } from 'antd';
 
 const { Meta } = Card;
 
-
-	
-
 const CourseCard = ({ coursePreview } : {coursePreview : CoursePreview}) => {
 	return(
 		<Card
@@ -21,7 +18,7 @@ const CourseCard = ({ coursePreview } : {coursePreview : CoursePreview}) => {
 				<p>Lessons in course: {coursePreview.lessonsCount}</p>
 				<ul> Skill you'll achieve:
 					{coursePreview.meta.skills?.map(skill => {
-						return <li>{skill}</li>
+						return <li key = {skill}>{skill}</li>
 					})}
 				</ul>
 				<p>{coursePreview.rating} / 5</p>
