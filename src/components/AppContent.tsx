@@ -4,6 +4,12 @@ import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
 import { useEffect, useReducer } from 'react'
 
+const FIRST_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 9;
+const FIRST_PAGE_REQUEST: PageRequest = {
+	page: FIRST_PAGE,
+	size: DEFAULT_PAGE_SIZE
+};
 
 interface FetchState {
 	pageResponse: null | Page<CoursePreview>;
@@ -20,10 +26,7 @@ interface FetchActions {
 	pageRequest: PageRequest;
 }
 
-const FIRST_PAGE_REQUEST: PageRequest = {
-	page: 0,
-	size: 10
-};
+
 const INITIAL_STATE: FetchState = {
 	pageResponse: null,
 	pageRequest: FIRST_PAGE_REQUEST
@@ -80,23 +83,25 @@ export const AppContent = () => {
 		<div>
 			<List className='app-content' grid={{
 				gutter: 16,
-				column: 2,
+				column: 3,
 				xs: 1,
-				sm: 2
+				sm: 1,
+				md: 1,
+				lg: 2,
 			}}
 				dataSource={searchState.pageResponse.results}
-				renderItem={(course) => {
+				renderItem={(item) => {
 					return (
 						<List.Item>
-							<CourseCard key={course.id} coursePreview={course} />
+							<CourseCard key={item.id} coursePreview={item} />
 						</List.Item>
 					)
 				}}
 			/>
 			<Pagination
-				defaultCurrent={1}
+				defaultCurrent={FIRST_PAGE}
 				total={searchState.pageResponse.total}
-				defaultPageSize={10}
+				defaultPageSize={DEFAULT_PAGE_SIZE}
 				onChange={pageChangeHandler}
 			/>
 		</div>

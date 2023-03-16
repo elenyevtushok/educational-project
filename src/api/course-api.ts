@@ -15,8 +15,8 @@ class CourseApi {
 	}
 
 	private slice(all: CoursePreview[], pageRequest: PageRequest): CoursePreview[] {
-		const start = pageRequest.page * pageRequest.size;
-		const end = start + pageRequest.size;
+		const start = (pageRequest.page - 1) * pageRequest.size;
+		let end = start + pageRequest.size;
 		return all.slice(start, end);
 	}
 }

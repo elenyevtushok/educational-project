@@ -10,7 +10,7 @@ const CourseCard = ({ coursePreview } : {coursePreview : CoursePreview}) => {
 		<Card
 			hoverable
 			style={{ width: 400 }}
-			cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+			cover={<img alt="example" src="https://cdn.elearningindustry.com/wp-content/uploads/2022/09/10-Ways-To-Improve-Employee-Productivity-In-The-Workplace.jpg" />}
 		>
 			<Meta title={coursePreview.title} 
 				description={coursePreview.description}  />
