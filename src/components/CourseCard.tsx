@@ -1,36 +1,33 @@
-import React from 'react';
 import { CoursePreview } from '../dto/Course';
 
-import { Card, List, Rate } from 'antd';
+import { Rate } from 'antd';
 import { Link } from 'react-router-dom';
 import "./styles/courseCardStyle.css"
-
-const { Meta } = Card;
-
 const CourseCard = ({ coursePreview }: { coursePreview: CoursePreview }) => {
 	return (
-		<Card
-			className='card-component'
-			hoverable
-			cover={<img alt="example" src={`${coursePreview.previewImageLink}/cover.webp`} />}
-		>
-			<Meta title={
-				<Link to={`course/${coursePreview.id}`}>{coursePreview.title}</Link>
-			}
-				description={[
-					<div key = {coursePreview.id} className='card-content'>
-						<p>{coursePreview.description}</p>
-						<p className='lessons-in-course'>Lessons in course: {coursePreview.lessonsCount}</p>
-						<p className='skills-header'> Skills you'll achieve:</p>
-						<ul>
-							{coursePreview.meta.skills?.map(skill => {
-								return <li key={skill}>{skill}</li>
-							})}
-						</ul>
-					</div>
-				]} />
-			<Rate disabled allowHalf value={coursePreview.rating} />
-		</Card>
+		<div className="box">
+			<div className="box-top">
+				<img className="box-image" src={`${coursePreview.previewImageLink}/cover.webp`} alt={coursePreview.title} />
+				<div className="title-flex">
+					<h3 className="box-title">{coursePreview.title}</h3>
+					<p className="lessons-info">Lessons: {coursePreview.lessonsCount}</p>
+				</div>
+				<Rate disabled allowHalf value={coursePreview.rating} />
+				<p className="description">{coursePreview.description}</p>
+				<div className='list-of-skills'>
+					<p className='skills-header'> Skills you'll achieve:</p>
+					<ul >
+						{coursePreview.meta.skills?.map(skill => {
+							return <li key={skill}>{skill}</li>
+						})}
+					</ul>
+				</div>
+			</div>
+			<button className="button">
+				<Link to={`course/${coursePreview.id}`}>Open Course</Link>
+			</button>
+		</div>
+
 	)
 };
 

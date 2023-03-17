@@ -1,11 +1,13 @@
-import { List, Pagination } from 'antd'
+import { List, Pagination, Row, Col, Card, Rate, Button } from 'antd'
 import { getCoursesPreviewApi } from '../api/course-api'
 import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
 import { useEffect, useReducer } from 'react'
+import Meta from 'antd/es/card/Meta'
+import { Link } from 'react-router-dom'
 
 const FIRST_PAGE = 1;
-const DEFAULT_PAGE_SIZE = 9;
+const DEFAULT_PAGE_SIZE = 10;
 const FIRST_PAGE_REQUEST: PageRequest = {
 	page: FIRST_PAGE,
 	size: DEFAULT_PAGE_SIZE
@@ -37,6 +39,7 @@ export const AppContent = () => {
 	useEffect(() => {
 		async function performFetch() {
 			const pageResponse = await getCoursesPreviewApi(searchState.pageRequest);
+
 			dispatchSearch({
 				pageResponse: pageResponse,
 				pageRequest: searchState.pageRequest,
@@ -80,33 +83,18 @@ export const AppContent = () => {
 
 	if (searchState.pageResponse === null) return <div>Loading...</div>;
 	if (searchState.pageResponse !== null) return (
-		<div>
-			<h2>Chose your perfect course</h2>
-			{/* <div className='cards-test'>
-				<CourseCard key={searchState.pageResponse.results[0].id} coursePreview={searchState.pageResponse.results[0]} />
-				<CourseCard key={searchState.pageResponse.results[5].id} coursePreview={searchState.pageResponse.results[6]} />
-			</div> */}
-
-			
-			<List className='app-content' grid={{
-				gutter: 16,
-				column: 3,
-				xs: 1,
-				sm: 1,
-				md: 1,
-				lg: 2,
-				xl: 2,
-				xxl: 3
-			}}
-				dataSource={searchState.pageResponse.results}
-				renderItem={(item) => {
+		<div className='app-content'>
+			<h2 className='content-title'>Chose your perfect course</h2>
+			<Row gutter={[24, 24]}>
+				{searchState.pageResponse.results.map(course => {
 					return (
-						<List.Item>
-							<CourseCard key={item.id} coursePreview={item} />
-						</List.Item>
+						<Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }} lg={{ span: 12 }} xl={{ span: 12 }}>
+							<CourseCard key={course.id} coursePreview={course} />
+						</Col>
 					)
-				}}
-			/>
+				})}
+			</Row>
+
 			<Pagination
 				className='pagination'
 				defaultCurrent={FIRST_PAGE}

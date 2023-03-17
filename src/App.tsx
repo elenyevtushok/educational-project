@@ -16,22 +16,23 @@ import {
 import { MainPage } from "./pages/MainPage";
 import { CoursePage } from "./pages/CoursePage";
 import { Page404 } from "./pages/errors/Page404";
+import { ErrorBoundary } from 'react-error-boundary'
+import { ErrorFallback } from "./components/common/ErrorFallback";
 
-const { Header, Content, Footer } = Layout;
 
 const App = () => {
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
+
 	return (
 		<Router>
 			<Layout className="layout">
 				<AppHeader />
-				<Routes>
-					<Route path="/" element={<MainPage />} />
-					<Route path="/course/:" element={<CoursePage />} />
-					<Route path="*" element={<Page404 />} />
-				</Routes>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<Routes>
+						<Route path="/" element={<MainPage />} />
+						<Route path="/course/:" element={<CoursePage />} />
+						<Route path="*" element={<Page404 />} />
+					</Routes>
+				</ErrorBoundary>
 				<AppFooter />
 			</Layout>
 		</Router>

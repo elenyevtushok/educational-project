@@ -6,13 +6,14 @@ import { STUB_COURSES_PREVIEW } from "./data-cources-overview";
 import { STUB_COURSE_DETAILS } from "./data-course-details";
 
 
-const slice = (all: CoursePreview[], pageRequest: PageRequest): CoursePreview[] =>{
+const slice = (all: CoursePreview[], pageRequest: PageRequest): CoursePreview[] => {
 	const start = (pageRequest.page - 1) * pageRequest.size;
 	let end = start + pageRequest.size;
 	return all.slice(start, end);
 }
 
-export const getCoursesPreviewApi = async (request: PageRequest): Promise<Page<CoursePreview>> =>{
+export const getCoursesPreviewApi = async (request: PageRequest): Promise<Page<CoursePreview>> => {
+	// throw new Error("Test error")
 	var mock = new MockAdapter(http.instance);
 	mock.onGet("/core/preview-courses").reply(200, STUB_COURSES_PREVIEW);
 	return await http.get<CoursesPreviewResponse, AxiosResponse<CoursesPreviewResponse>>("/core/preview-courses")
@@ -20,7 +21,7 @@ export const getCoursesPreviewApi = async (request: PageRequest): Promise<Page<C
 		.then(response => new Page<CoursePreview>(slice(response.courses, request), response.courses.length));
 }
 
-export const getCourseApi = async (id: string): Promise<Course> =>{
+export const getCourseApi = async (id: string): Promise<Course> => {
 	var mock = new MockAdapter(http.instance);
 	mock.onGet(`/core/preview-courses/${id}`).reply(200, STUB_COURSE_DETAILS);
 	return await http.get(`/core/preview-courses/${id}`)
