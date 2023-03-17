@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Menu, Layout } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
@@ -8,7 +9,7 @@ const { Header } = Layout;
 function AppHeader() {
 	return (
 		<Header>
-			<div className="logo"></div>
+			<Link to={'/'}><div className="logo" ></div></Link>
 			<Menu
 				style={{ float: 'right'}}
 				theme="light"

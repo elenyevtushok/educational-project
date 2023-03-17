@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import { courseApi } from '../api/course-api';
+import { getCourseApi } from '../api/course-api';
 import { Course } from '../dto/Course';
 
 export const CoursePage = () => {
@@ -9,7 +9,7 @@ export const CoursePage = () => {
 	
 	useEffect(() => {
 		async function getCourse() {
-			const course = await courseApi.getCourse(id!);
+			const course = await getCourseApi(id!);
 			setCourse(course)
 		}
 		getCourse();

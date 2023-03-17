@@ -28,7 +28,7 @@ const App = () => {
 				<AppHeader />
 				<Routes>
 					<Route path="/" element={<MainPage />} />
-					<Route path="/course/:id" element={<CoursePage />} />
+					<Route path="/course/:" element={<CoursePage />} />
 				</Routes>
 				<AppFooter />
 			</Layout>

@@ -1,5 +1,5 @@
 import { List, Pagination } from 'antd'
-import { courseApi } from '../api/course-api'
+import { getCoursesPreviewApi } from '../api/course-api'
 import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
 import { useEffect, useReducer } from 'react'
@@ -36,7 +36,7 @@ export const AppContent = () => {
 	const [searchState, dispatchSearch] = useReducer(searchReducer, INITIAL_STATE);
 	useEffect(() => {
 		async function performFetch() {
-			const pageResponse = await courseApi.getCoursesPreview(searchState.pageRequest);
+			const pageResponse = await getCoursesPreviewApi(searchState.pageRequest);
 			dispatchSearch({
 				pageResponse: pageResponse,
 				pageRequest: searchState.pageRequest,

@@ -12,13 +12,13 @@ const CourseCard = ({ coursePreview }: { coursePreview: CoursePreview }) => {
 		<Card
 			className='card-component'
 			hoverable
-			cover={<img alt="example" src="https://cdn.elearningindustry.com/wp-content/uploads/2022/09/10-Ways-To-Improve-Employee-Productivity-In-The-Workplace.jpg" />}
+			cover={<img alt="example" src={`${coursePreview.previewImageLink}/cover.webp`} />}
 		>
 			<Meta title={
 				<Link to={`course/${coursePreview.id}`}>{coursePreview.title}</Link>
 			}
 				description={[
-					<div className='card-content'>
+					<div key = {coursePreview.id} className='card-content'>
 						<p>{coursePreview.description}</p>
 						<p className='lessons-in-course'>Lessons in course: {coursePreview.lessonsCount}</p>
 						<p className='skills-header'> Skills you'll achieve:</p>
