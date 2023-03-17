@@ -8,6 +8,13 @@ import { AppContent } from "./components/AppContent";
 import AppHeader from "./components/common/AppHeader";
 import { AppFooter } from "./components/common/AppFooter";
 import { Hero } from "./components/Hero";
+import {
+	BrowserRouter as Router,
+	Route,
+	Routes,
+} from "react-router-dom";
+import { MainPage } from "./components/MainPage";
+import { CoursePage } from "./components/CoursePage";
 
 const { Header, Content, Footer } = Layout;
 
@@ -16,14 +23,16 @@ const App = () => {
 		token: { colorBgContainer },
 	} = theme.useToken();
 	return (
-		<Layout className="layout">
-			<AppHeader />
-			<Hero />
-			<Content style={{ padding: '0 50px' }}>
-				<AppContent />
-			</Content>
-			<AppFooter />
-		</Layout>
+		<Router>
+			<Layout className="layout">
+				<AppHeader />
+				<Routes>
+					<Route path="/" element={<MainPage />} />
+					<Route path="/course/:id" element={<CoursePage />} />
+				</Routes>
+				<AppFooter />
+			</Layout>
+		</Router>
 	);
 };
 

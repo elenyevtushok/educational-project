@@ -82,6 +82,12 @@ export const AppContent = () => {
 	if (searchState.pageResponse !== null) return (
 		<div>
 			<h2>Chose your perfect course</h2>
+			{/* <div className='cards-test'>
+				<CourseCard key={searchState.pageResponse.results[0].id} coursePreview={searchState.pageResponse.results[0]} />
+				<CourseCard key={searchState.pageResponse.results[5].id} coursePreview={searchState.pageResponse.results[6]} />
+			</div> */}
+
+			
 			<List className='app-content' grid={{
 				gutter: 16,
 				column: 3,
@@ -102,7 +108,7 @@ export const AppContent = () => {
 				}}
 			/>
 			<Pagination
-			className='pagination'
+				className='pagination'
 				defaultCurrent={FIRST_PAGE}
 				total={searchState.pageResponse.total}
 				defaultPageSize={DEFAULT_PAGE_SIZE}
