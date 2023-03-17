@@ -29,7 +29,7 @@ const App = () => {
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<Routes>
 						<Route path="/" element={<MainPage />} />
-						<Route path="/course/:" element={<CoursePage />} />
+						<Route path="/course/:id" element={<CoursePage />} />
 						<Route path="*" element={<Page404 />} />
 					</Routes>
 				</ErrorBoundary>

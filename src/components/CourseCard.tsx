@@ -23,9 +23,8 @@ const CourseCard = ({ coursePreview }: { coursePreview: CoursePreview }) => {
 					</ul>
 				</div>
 			</div>
-			<button className="button">
-				<Link to={`course/${coursePreview.id}`}>Open Course</Link>
-			</button>
+			<a href={`course/${coursePreview.id}`} className="button">Open Course
+			</a>
 		</div>
 
 	)
