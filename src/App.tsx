@@ -13,8 +13,9 @@ import {
 	Route,
 	Routes,
 } from "react-router-dom";
-import { MainPage } from "./components/MainPage";
-import { CoursePage } from "./components/CoursePage";
+import { MainPage } from "./pages/MainPage";
+import { CoursePage } from "./pages/CoursePage";
+import { Page404 } from "./pages/errors/Page404";
 
 const { Header, Content, Footer } = Layout;
 
@@ -29,6 +30,7 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<MainPage />} />
 					<Route path="/course/:" element={<CoursePage />} />
+					<Route path="*" element={<Page404 />} />
 				</Routes>
 				<AppFooter />
 			</Layout>

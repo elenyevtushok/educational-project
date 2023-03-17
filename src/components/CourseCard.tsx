@@ -3,7 +3,7 @@ import { CoursePreview } from '../dto/Course';
 
 import { Card, List, Rate } from 'antd';
 import { Link } from 'react-router-dom';
-
+import "./styles/courseCardStyle.css"
 
 const { Meta } = Card;
 

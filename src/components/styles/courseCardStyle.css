@@ -1,0 +1,18 @@
+/* card styles */
+.ant-card-body {
+	font-family: 'Poppins', sans-serif;
+}
+
+div.ant-card-meta-title {
+	font-size: 20px !important;
+	overflow-wrap: break-word !important;
+}
+
+.skills-header {
+	font-weight: 600;
+}
+
+.lessons-in-course {
+	font-style: italic;
+	font-weight: 600;
+}

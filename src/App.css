@@ -40,38 +40,7 @@ body {
 	margin: 16px 0 16px 24px;
 }
 
-/* card styles */
-.ant-card-body {
-	font-family: 'Poppins', sans-serif;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	flex: 1
-}
-.ant-card{
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
 
-
-.card-content {
-	font-size: 16px;
-	flex: 1;
-}
-
-div.ant-card-meta-title {
-	font-size: 20px !important;
-	overflow-wrap: break-word !important;
-}
-
-.skills-header {
-	font-weight: 600;
-}
-.lessons-in-course {
-	font-style: italic;
-	font-weight: 600;
-}
 
 .pagination {
 	margin-bottom: 20px;
