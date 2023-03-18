@@ -16,9 +16,17 @@
 	opacity: 0.7;
 }
 .course-page-video-lessons{
-	display: flex;
-	justify-content: space-evenly;
-}
-.course-preview-video{
 	margin: 50px;
+}
+
+.lesson-video-link{
+	cursor: pointer;
+	font-size: 20px;
+}
+.lesson-disabled{
+	opacity: 0.4;
+	cursor:not-allowed;
+}
+.current-lesson{
+	font-weight: 900;
 }
