@@ -2,10 +2,18 @@
 	--color-orange: #F7C701;
 	--color-grey: rgba(245, 245, 245)
 }
+
 body {
 	margin: 0;
 	font-family: 'Poppins', sans-serif;
+
 }
+
+.ant-layout {
+	display: flex;
+	flex-direction: column;
+}
+
 .site-layout-content {
 	min-height: 280px;
 	padding: 24px;
@@ -14,8 +22,9 @@ body {
 
 /* header and logo design */
 .ant-layout-header {
-	background:var(--color-orange);
+	background: var(--color-orange);
 }
+
 .logo {
 	float: left;
 	width: 200px;
@@ -26,18 +35,23 @@ body {
 	background-repeat: no-repeat;
 	background-position: center;
 }
+
 .ant-row-rtl .logo {
 	float: right;
 	margin: 16px 0 16px 24px;
 }
+
 .app-content {
 	margin: 30px;
+	height:100%;
 }
-.content-title{
-	font-family: 'Poppins',sans-serif;
+
+.content-title {
+	font-family: 'Poppins', sans-serif;
 	text-align: center;
 	font-size: 36px;
 }
+
 .pagination {
 	margin: 20px;
 	text-align: right;

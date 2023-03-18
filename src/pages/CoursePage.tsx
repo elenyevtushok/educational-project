@@ -5,8 +5,8 @@ import { Course } from '../dto/Course';
 
 export const CoursePage = () => {
 	const { id } = useParams();
-	const[course, setCourse] = useState<Course | null>(null)
-	
+	const [course, setCourse] = useState<Course | null>(null)
+
 	useEffect(() => {
 		async function getCourse() {
 			const course = await getCourseApi(id!);
@@ -17,9 +17,10 @@ export const CoursePage = () => {
 	}, [id]);
 
 	return (
-		<div>I'm course {id}
-			<div>I'm course {course?.title}</div>
+		<div className='app-content'>
+			<div>I'm course {id}
+				<div>I'm course {course?.title}</div>
+			</div>
 		</div>
-		
 	)
 }

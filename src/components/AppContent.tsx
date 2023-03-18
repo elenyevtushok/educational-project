@@ -1,10 +1,8 @@
-import { List, Pagination, Row, Col, Card, Rate, Button } from 'antd'
+import { Row, Col, Button } from 'antd'
 import { getCoursesPreviewApi } from '../api/course-api'
 import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
 import { useEffect, useReducer } from 'react'
-import Meta from 'antd/es/card/Meta'
-import { Link } from 'react-router-dom'
 
 const FIRST_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -14,12 +12,9 @@ const FIRST_PAGE_REQUEST: PageRequest = {
 };
 
 interface FetchState {
-	pageResponse: null | Page<CoursePreview>;
-	pageRequest: PageRequest
-}
-
-interface FetchDataAction {
-	pageResponse: Page<CoursePreview>;
+	pageRequest: PageRequest;
+	results: CoursePreview[];
+	total: number;
 }
 
 interface FetchActions {
@@ -30,8 +25,9 @@ interface FetchActions {
 
 
 const INITIAL_STATE: FetchState = {
-	pageResponse: null,
-	pageRequest: FIRST_PAGE_REQUEST
+	pageRequest: FIRST_PAGE_REQUEST,
+	results: [],
+	total: 0
 }
 
 export const AppContent = () => {
@@ -50,8 +46,7 @@ export const AppContent = () => {
 	}, [searchState.pageRequest]);
 
 	function searchReducer(currentState: FetchState, action: FetchActions): FetchState {
-		//  Implement your reducer here.
-		if (action.type === "PAGINATION") {
+		if (action.type === "LOAD_MORE") {
 			return {
 				...currentState,
 				pageRequest: action.pageRequest
@@ -61,47 +56,48 @@ export const AppContent = () => {
 		if (action.type === "UPDATE") {
 			return {
 				...currentState,
-				pageResponse: action.pageResponse
+				results: currentState.results?.concat(action.pageResponse!.results),
+				total: action.pageResponse!.total
 			};
 		}
 
 		return currentState;
 	}
 
-	const pageChangeHandler = (page: number, pageSize: number) => {
+	const loadMoreHandler = () => {
 		const newPageRequest: PageRequest = {
-			page: page,
-			size: pageSize
+			page: (searchState.pageRequest.page + 1),
+			size: searchState.pageRequest.size
 		};
 		dispatchSearch({
 			pageResponse: null,
 			pageRequest: newPageRequest,
-			type: "PAGINATION"
+			type: "LOAD_MORE"
 		});
-	}
+	};
 
-
-	if (searchState.pageResponse === null) return <div>Loading...</div>;
-	if (searchState.pageResponse !== null) return (
-		<div className='app-content'>
-			<h2 className='content-title'>Chose your perfect course</h2>
-			<Row gutter={[24, 24]}>
-				{searchState.pageResponse.results.map(course => {
-					return (
-						<Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }} lg={{ span: 12 }} xl={{ span: 12 }}>
-							<CourseCard key={course.id} coursePreview={course} />
-						</Col>
-					)
-				})}
-			</Row>
-
-			<Pagination
-				className='pagination'
-				defaultCurrent={FIRST_PAGE}
-				total={searchState.pageResponse.total}
-				defaultPageSize={DEFAULT_PAGE_SIZE}
-				onChange={pageChangeHandler}
-			/>
+	return (
+		<div>
+			{
+				(searchState.total > 0) && (
+					<div className='app-content'>
+						<h2 className='content-title' id='content-start'>Chose your perfect course</h2>
+						<Row gutter={[24, 24]}>
+							{searchState.results.map(course => {
+								return (
+									<Col key={`col-${course.id}`} xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 12 }} lg={{ span: 12 }} xl={{ span: 12 }}>
+										<CourseCard key={course.id} coursePreview={course} />
+									</Col>
+								)
+							})}
+						</Row>
+						{
+							(searchState.results.length < searchState.total) &&
+							(<Button onClick={loadMoreHandler}>Load more</Button>)
+						}
+					</div>
+				)
+			}
 		</div>
 	)
 
