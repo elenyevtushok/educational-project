@@ -93,7 +93,7 @@ export const AppContent = () => {
 						</Row>
 						{
 							(searchState.results.length < searchState.total) &&
-							(<Button onClick={loadMoreHandler}>Load more</Button>)
+							(<button className='button-load-more' onClick={loadMoreHandler}>Load more courses</button>)
 						}
 					</div>
 				)
