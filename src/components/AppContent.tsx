@@ -2,7 +2,7 @@ import { Row, Col } from 'antd'
 import { getCoursesPreviewApi } from '../api/course-api'
 import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
-import { useReducer } from 'react';
+import { ReactNode, useReducer } from 'react';
 import { useQuery } from "react-query";
 
 const FIRST_PAGE = 1;
@@ -82,7 +82,7 @@ export const AppContent = () => {
 	return (
 		<div>
 			{
-				(searchState.total > 0) && (
+				(searchState.results.length > 0) && (
 					<div className='app-content'>
 						<h2 className='content-title' id='content-start'>Chose your perfect course</h2>
 						<Row gutter={[24, 24]}>
@@ -96,7 +96,9 @@ export const AppContent = () => {
 						</Row>
 						{
 							(searchState.results.length < searchState.total) &&
-							(<button className='button-load-more' onClick={loadMoreHandler}>Load more courses</button>)
+							(<button className='button-load-more'
+								data-testid='button-load-more'
+								onClick={loadMoreHandler}>Load more courses</button>)
 						}
 					</div>
 				)

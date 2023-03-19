@@ -1,5 +1,5 @@
 :root {
-	--purple: #F7C701;
+	--orange: #F7C701;
 	--pink: hsl(0, 59%, 94%);
 	--light-bg: hsl(204, 37%, 92%);
 	--light-gray-bg: hsl(0, 0%, 94%);
@@ -65,7 +65,7 @@ a {
 }
 
 .box-title {
-	border-left: 3px solid var(--purple);
+	border-left: 3px solid var(--orange);
 	padding-left: 12px;
 	font-size: 24px;
 }
@@ -91,7 +91,7 @@ a {
 }
 
 .button:hover {
-	background: var(--purple);
+	background: var(--orange);
 }
 
 .fill-one {

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import "./styles/courseCardStyle.css"
 const CourseCard = ({ coursePreview }: { coursePreview: CoursePreview }) => {
 	return (
-		<div className="box">
+		<div className="box" data-testid='course-card'>
 			<div className="box-top">
 				<img className="box-image" src={`${coursePreview.previewImageLink}/cover.webp`} alt={coursePreview.title} />
 				<div className="title-flex">
