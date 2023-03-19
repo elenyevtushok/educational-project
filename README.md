@@ -1,6 +1,10 @@
 # educational-project
 Educational project for Genesis Front-end school
+
 Проєкт побудований на Type Script та React.
+
+Demo проєкту на Netlify
+https://stellar-wisp-c5bc99.netlify.app/
 
 АРІ не працює через CORS policy.
 Я використовувала localhost:3000, пробувала використовувати розширення для браузера Allow CORS, але помилка не зникає.
