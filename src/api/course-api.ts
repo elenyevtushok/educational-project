@@ -13,7 +13,7 @@ const slice = (all: CoursePreview[], pageRequest: PageRequest): CoursePreview[] 
 }
 
 export const getCoursesPreviewApi = async (request: PageRequest): Promise<Page<CoursePreview>> => {
-	// throw new Error("Test error")
+	// TODO remove mock when CORS issue will be fixed 
 	var mock = new MockAdapter(http.instance);
 	mock.onGet("/core/preview-courses").reply(200, STUB_COURSES_PREVIEW);
 	return await http.get<CoursesPreviewResponse, AxiosResponse<CoursesPreviewResponse>>("/core/preview-courses")
@@ -22,6 +22,7 @@ export const getCoursesPreviewApi = async (request: PageRequest): Promise<Page<C
 }
 
 export const getCourseApi = async (id: string): Promise<Course> => {
+	// TODO remove mock when CORS issue will be fixed 
 	var mock = new MockAdapter(http.instance);
 	mock.onGet(`/core/preview-courses/${id}`).reply(200, STUB_COURSE_DETAILS);
 	return await http.get(`/core/preview-courses/${id}`)

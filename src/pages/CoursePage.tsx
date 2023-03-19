@@ -1,5 +1,4 @@
-import { Row, Col } from 'antd';
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { getCourseApi } from '../api/course-api';
 import { Course, Lesson } from '../dto/Course';
@@ -9,7 +8,7 @@ import { useQuery } from "react-query";
 
 export const CoursePage = () => {
 	const { id } = useParams();
-	const { status, data: course } = useQuery("course",
+	const { status, data: course } = useQuery(["course", id],
 		async () => {
 			return await getCourseApi(id!);
 		},

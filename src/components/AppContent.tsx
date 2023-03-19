@@ -1,8 +1,9 @@
-import { Row, Col, Button } from 'antd'
+import { Row, Col } from 'antd'
 import { getCoursesPreviewApi } from '../api/course-api'
 import { CoursePreview, Page, PageRequest } from '../dto/Course'
 import CourseCard from './CourseCard'
-import { useEffect, useReducer } from 'react'
+import { useReducer } from 'react';
+import { useQuery } from "react-query";
 
 const FIRST_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 10;
@@ -32,18 +33,20 @@ const INITIAL_STATE: FetchState = {
 
 export const AppContent = () => {
 	const [searchState, dispatchSearch] = useReducer(searchReducer, INITIAL_STATE);
-	useEffect(() => {
-		async function performFetch() {
-			const pageResponse = await getCoursesPreviewApi(searchState.pageRequest);
 
-			dispatchSearch({
-				pageResponse: pageResponse,
-				pageRequest: searchState.pageRequest,
-				type: "UPDATE"
-			});
-		}
-		performFetch();
-	}, [searchState.pageRequest]);
+	useQuery(["course preview", searchState.pageRequest],
+		async () => {
+			return await getCoursesPreviewApi(searchState.pageRequest);
+		},
+		{
+			onSuccess: (pageResponse: Page<CoursePreview>) => {
+				dispatchSearch({
+					pageResponse: pageResponse,
+					pageRequest: searchState.pageRequest,
+					type: "UPDATE"
+				});
+			}
+		});
 
 	function searchReducer(currentState: FetchState, action: FetchActions): FetchState {
 		if (action.type === "LOAD_MORE") {
